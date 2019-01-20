@@ -6,24 +6,24 @@ pipeline {
         sh './gradlew clean assemble assembleAndroidTest'
       }
     }
-    stage('test') {
+    stage('unit test') {
       steps {
         sh './gradlew test'
       }
     }
-    stage('archive') {
+    stage('packaging') {
       steps {
         archiveArtifacts(artifacts: '**/*.apk', fingerprint: true)
         junit(testResults: '**/*.xml', allowEmptyResults: true)
       }
     }
-    stage('test lab') {
+    stage('ui test') {
       steps {
         sh 'gcloud firebase test android run firebase-test-matrix.yml:instrumentation-test --app app/build/outputs/apk/mock/debug/app-mock-debug.apk --test app/build/outputs/apk/androidTest/mock/debug/app-mock-debug-androidTest.apk --project digioci'
         sh 'gcloud firebase test android run firebase-test-matrix.yml:robo-test --app app/build/outputs/apk/prod/release/app-prod-release.apk --project digioci'
       }
     }
-    stage('publish apk') {
+    stage('publish') {
       steps {
         androidApkUpload apkFilesPattern: '**/app-prod-release.apk', googleCredentialsId: 'Google Play Android Developer', rolloutPercentage: '100', trackName: 'internal'
       }

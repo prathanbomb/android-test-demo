@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh './gradlewwww clean assemble assembleAndroidTest'
+        sh './gradlew clean assemble assembleAndroidTest'
       }
     }
     stage('unit test') {
@@ -31,10 +31,10 @@ pipeline {
   }
   post {
     failure {
-      sh "curl https://notify-api.line.me/api/notify -H 'Authorization: Bearer vJ7U5fpsK0mUcvyhCLnXrHoWaYnLgps3vDflcP70SOz' -F 'message=${env.JOB_NAME} #${env.BUILD_NUMBER} \nresult is failed. \n${env.BUILD_URL}' -F 'stickerId=173' -F 'stickerPackageId=2'"
+      sh "curl https://notify-api.line.me/api/notify -H 'Authorization: Bearer 9VtlAqMLsbQbozGBvanO96aPHrLU901TJKpW8ErlTHU' -F 'message=${env.JOB_NAME} #${env.BUILD_NUMBER} \nresult is failed. \n${env.BUILD_URL}' -F 'stickerId=173' -F 'stickerPackageId=2'"
     }
     success {
-      sh "curl https://notify-api.line.me/api/notify -H 'Authorization: Bearer vJ7U5fpsK0mUcvyhCLnXrHoWaYnLgps3vDflcP70SOz' -F 'message=${env.JOB_NAME} #${env.BUILD_NUMBER} \nresult is success. \n${env.BUILD_URL}' -F 'stickerId=525' -F 'stickerPackageId=2'"
+      sh "curl https://notify-api.line.me/api/notify -H 'Authorization: Bearer 9VtlAqMLsbQbozGBvanO96aPHrLU901TJKpW8ErlTHU' -F 'message=${env.JOB_NAME} #${env.BUILD_NUMBER} \nresult is success. \n${env.BUILD_URL}' -F 'stickerId=525' -F 'stickerPackageId=2'"
     }
   }
 }
